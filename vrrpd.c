@@ -78,7 +78,6 @@ int mypid;
 
 char buff[80];
 int max_monitor = 9;
-char pidend[6] = ".pid";
 
 // Path generated in main function
 char pidfilepath[FILENAME_MAX+1];
@@ -225,7 +224,7 @@ void killvrrpd(int killnu,char *ifname)
 ****************************************************************/
 static char *pidfile_get_name( vrrp_rt *vsrv )
 {
-	static char pidfile[FILENAME_MAX+1];
+  static char pidfile[(sizeof VRRP_PID_FORMAT - 2 - 1) + (sizeof PidDir - 1) + (IFNAMSIZ - 1) + 1];
 	snprintf( pidfile, sizeof(pidfile), "%s/" VRRP_PID_FORMAT
 					, PidDir
 					, vsrv->vif.ifname );
@@ -340,11 +339,16 @@ static u_short in_csum( u_short *addr, int len, u_short csum)
 ****************************************************************/
 static uint32_t ifname_to_ip( char *ifname )
 {
-	struct ifreq	ifr;
+  struct ifreq	ifr;
 	int		fd	= socket(AF_INET, SOCK_DGRAM, 0);
 	uint32_t	addr	= 0;
 	if (fd < 0) 	return (-1);
+
 	strncpy(ifr.ifr_name, ifname, sizeof(ifr.ifr_name));
+	// Extrait de strncpy(3): If there is no null byte among the first n bytes of src, the string placed in dest will not be null-terminated
+	// On s'assure donc que la chaîne se termine forcément par un 0
+	ifr.ifr_name[sizeof(ifr.ifr_name) - 1] = 0;
+
 	if (ioctl(fd, SIOCGIFADDR, (char *)&ifr) == 0) {
 		struct sockaddr_in *sin = (struct sockaddr_in *)&ifr.ifr_addr;
 		addr = ntohl(sin->sin_addr.s_addr);
@@ -364,7 +368,12 @@ static int ifname_to_idx( char *ifname )
 	int		fd	= socket(AF_INET, SOCK_DGRAM, 0);
 	int		ifindex = -1;
 	if (fd < 0) 	return (-1);
+	
 	strncpy(ifr.ifr_name, ifname, sizeof(ifr.ifr_name));
+	// Extrait de strncpy(3): If there is no null byte among the first n bytes of src, the string placed in dest will not be null-terminated
+	// On s'assure donc que la chaîne se termine forcément par un 0
+	ifr.ifr_name[sizeof(ifr.ifr_name) - 1] = 0;
+
 	if (ioctl(fd, SIOCGIFINDEX, (char *)&ifr) == 0)
 		ifindex = ifr.ifr_ifindex;
 	close(fd);
@@ -382,7 +391,12 @@ static int rcvhwaddr_op( char *ifname, char *addr, int addrlen, int addF )
 	int		fd	= socket(AF_INET, SOCK_DGRAM, 0);
 	int		ret;
 	if (fd < 0) 	return (-1);
+
 	strncpy(ifr.ifr_name, ifname, sizeof(ifr.ifr_name));
+	// Extrait de strncpy(3): If there is no null byte among the first n bytes of src, the string placed in dest will not be null-terminated
+	// On s'assure donc que la chaîne se termine forcément par un 0
+	ifr.ifr_name[sizeof(ifr.ifr_name) - 1] = 0;
+
 	memcpy( ifr.ifr_hwaddr.sa_data, addr, addrlen );
 	ifr.ifr_hwaddr.sa_family = AF_UNSPEC;
 	ret = ioctl(fd, addF ? SIOCADDMULTI : SIOCDELMULTI, (char *)&ifr);
@@ -407,7 +421,12 @@ static int hwaddr_set( char *ifname, char *addr, int addrlen )
 	int		ret;
 	unsigned long	flags;
 	if (fd < 0) 	return (-1);
+
 	strncpy(ifr.ifr_name, ifname, sizeof(ifr.ifr_name));
+	// Extrait de strncpy(3): If there is no null byte among the first n bytes of src, the string placed in dest will not be null-terminated
+	// On s'assure donc que la chaîne se termine forcément par un 0
+	ifr.ifr_name[sizeof(ifr.ifr_name) - 1] = 0;
+
 	/* get the flags */
 	ret = ioctl(fd, SIOCGIFFLAGS, (char *)&ifr);
 	if( ret )	goto end;
@@ -449,7 +468,12 @@ static int hwaddr_get( char *ifname, char *addr, int addrlen )
 	int		fd	= socket(AF_INET, SOCK_DGRAM, 0);
 	int		ret;
 	if (fd < 0) 	return (-1);
+
 	strncpy(ifr.ifr_name, ifname, sizeof(ifr.ifr_name));
+	// Extrait de strncpy(3): If there is no null byte among the first n bytes of src, the string placed in dest will not be null-terminated
+	// On s'assure donc que la chaîne se termine forcément par un 0
+	ifr.ifr_name[sizeof(ifr.ifr_name) - 1] = 0;
+
 	ret = ioctl(fd, SIOCGIFHWADDR, (char *)&ifr);
 	memcpy( addr, ifr.ifr_hwaddr.sa_data, addrlen );
 //printf("%x:%x:%x:%x:%x:%x\n", addr[0], addr[1], addr[2], addr[3], addr[4], addr[5] );
@@ -926,6 +950,10 @@ int detect_ethtool(int skfd, char *ifname)
 	edata.cmd = ETHTOOL_GLINK;
 
 	strncpy(ifr.ifr_name, ifname, sizeof(ifr.ifr_name)-1);
+	// Extrait de strncpy(3): If there is no null byte among the first n bytes of src, the string placed in dest will not be null-terminated
+	// On s'assure donc que la chaîne se termine forcément par un 0
+	ifr.ifr_name[sizeof(ifr.ifr_name) - 1] = 0;
+
 	ifr.ifr_data = (char *) &edata;
 
 	if (ioctl(skfd, SIOCETHTOOL, &ifr) == -1){

@@ -41,7 +41,6 @@ int max_monitor = 9;
 char version1[10] = "1.0";
 char buff[80];
 char data[DATA_MAX];
-char pidend[6] = ".pid";
 char separetepath[2] = "/";
 int monitor;
 int pid;
@@ -177,12 +176,16 @@ void fonctinfo() {
 		}		
 	}
 	printf("\n");
-        char command[50];
-	snprintf(command,sizeof command,"grep -sh state %s/.*vrrpstate*",PidDir);
+
+#define CMD "grep -sh state %s/.*vrrpstate*"
+	char command[sizeof CMD + sizeof PidDir - 3];
+	snprintf(command,sizeof command,CMD,PidDir);
 	system(command);
 
-	snprintf(command,sizeof command,"rm %s/.*vrrpstate*",PidDir);
-	system(command);
+#define CMD2 "rm %s/.*vrrpstate*"
+	char command2[sizeof CMD2 + sizeof PidDir - 3];
+	snprintf(command2,sizeof command2,CMD2,PidDir);
+	system(command2);
 
 	printf("\n");
 	fprintf(stdout, "Be careful, Atropos doesn't show virtual mac address of vlan interface");
