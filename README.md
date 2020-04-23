@@ -8,9 +8,9 @@ Cette documentation n'est pas destinée à se substituer à la connaissance des 
 
 Cette version a été spécifiquement adaptée et testée avec succès sur la distribution Linux Ubuntu 20.4 LTS server. Toutes les commandes sont à réaliser sous l'utilisateur root.
 
-On suppose que vous avez installé deux machines de manière identique sur un même LAN et que vous souhaitez les mettre en cluster avec un VIP.
+On suppose que vous avez installé deux machines de manière identique sur un même LAN et que vous souhaitez les mettre en cluster avec une VIP (adresse IP virtuelle portée tour à tour par l'un des membres du cluster), afin de réaliser un cluster Actif/Passif.
 
-Réalisez les opérations suivantes sur chacun de ces deux machines :
+Réalisez les opérations suivantes sur chacune de ces deux machines :
 - Commencez par `apt update` puis `apt upgrade` pour mettre à jour votre distribution
 - Installez les paquets gcc et make : `apt install -y gcc make`
 - Clonez ce dépot : `git clone https://github.com/AlexandreFenyo/Vrrpd`
