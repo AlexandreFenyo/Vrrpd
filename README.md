@@ -36,9 +36,11 @@ Pour réaliser des clusters VRRP sur plusieurs LAN, toujours avec deux machines,
 
 Enfin, sachez que VRRP, ainsi que son cousin HSRP créé par Cisco, ont initialement été inventés pour réaliser des clusters de routeurs. La mise en clusters de serveurs peut être réalisée via d'autres moyens, par exemple avec HeartBeat : https://www.it-connect.fr/clustering-et-haute-disponibilite-sous-linux-avec-heartbeat%EF%BB%BF/
 
-Exemple de bascule réalisée sur un cluster composé de deux machines virtuelles sous VMWare et d'un poste Windows qui réalise un ping sur la VIP du cluster. On coupe virtuellement le réseau de la machine active du cluster via VMWare et on constate l'arrêt temporaire du service, la bascule puis sa reprise.
+## Exemple de bascule sur un cluster
 
-![GitHub Logo](bascule.png)
+Voici un exemple de bascule réalisée sur un cluster composé de deux machines virtuelles sous VMWare et d'un poste Windows qui boucle sur un ping vers la VIP du cluster. On coupe virtuellement le réseau de la machine active du cluster via VMWare et on constate l'arrêt temporaire du service, la bascule puis sa reprise.
+
+![Exemple de bascule](bascule.png)
 
 # Documentation initiale de Frédéric Bourgeois
 
