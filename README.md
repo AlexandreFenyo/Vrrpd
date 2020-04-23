@@ -2,7 +2,7 @@
 
 ## Introduction
 
-Cette documentation est destinée à une personne qui connaît la nature du protocole VRRP. Vous pouvez monter en compétences sur ce protocole en lisant [https://tools.ietf.org/html/rfc5798|RFC 5798].
+Cette documentation est destinée à une personne qui connaît la nature du protocole VRRP. Vous pouvez monter en compétences sur ce protocole en lisant [[https://tools.ietf.org/html/rfc5798|RFC 5798]].
 
 ## Compilation et installation initiale
 
