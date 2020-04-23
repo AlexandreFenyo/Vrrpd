@@ -12,7 +12,7 @@ On suppose que vous avez installé deux machines de manière identique sur un m�
 
 Réalisez les opérations suivantes sur chacune de ces deux machines :
 - Commencez par `apt update` puis `apt upgrade` pour mettre à jour votre distribution
-- Installez les paquets gcc et make : `apt install -y gcc make`
+- Installez les paquets gcc, make et net-tools : `apt install -y gcc make net-tools`
 - Clonez ce dépot : `git clone https://github.com/AlexandreFenyo/Vrrpd`
 - Compilez et installez le service, qui s'appelle vrrp : `./install` et choisissez *2* (compilation et installation)
 - Forcez l'arrêt du service : `systemctl stop vrrp`
