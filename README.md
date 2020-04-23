@@ -36,6 +36,10 @@ Pour réaliser des clusters VRRP sur plusieurs LAN, toujours avec deux machines,
 
 Enfin, sachez que VRRP, ainsi que son cousin HSRP créé par Cisco, ont initialement été inventés pour réaliser des clusters de routeurs. La mise en clusters de serveurs peut être réalisée via d'autres moyens, par exemple avec HeartBeat : https://www.it-connect.fr/clustering-et-haute-disponibilite-sous-linux-avec-heartbeat%EF%BB%BF/
 
+## Démarrage du service
+
+Une fois ce logiciel compilé, installé et configuré, il faut démarrer le service. Cette version d'Ubuntu étant basée sur systemd, il suffit de lancer la commande `systemctl start vrrp` pour démarrer le service. Le démarrage de ce service au boot de la machine  est automatique car l'installation précédente a réalisé un `systemctl enable vrrp`. Enfin, on procède à l'arrêt du service via `systemctl stop vrrp`. Pour surveiller en temps réel les logs produits par le service, il suffit d'exécuter la commande `journalctl -u vrrp -f`.
+
 ## Exemple de bascule sur un cluster
 
 Voici un exemple de bascule réalisée sur un cluster composé de deux machines virtuelles sous VMWare et d'un poste Windows qui boucle sur un ping vers la VIP du cluster. On coupe virtuellement le réseau de la machine active du cluster via VMWare et on constate l'arrêt temporaire du service, la bascule puis sa reprise.
