@@ -10,7 +10,6 @@ IgnoreSIGPIPE=no
 KillMode=process
 GuessMainPID=no
 RemainAfterExit=yes
-SysVStartPriority=20
 ExecStart=/etc/vrrpd/startup.sh start
 ExecStop=/etc/vrrpd/startup.sh stop
 

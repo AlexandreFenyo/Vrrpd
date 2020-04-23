@@ -19,16 +19,16 @@ up=/etc/vrrpd/Master.sh
 down=/etc/vrrpd/Backup.sh
 
 # number of process vrrp MUST be equal the process number 
-ps=2
+ps=1
 
 #Vrrp,Vid,eg 2 vrrpd
-int0=eth0
+int0=ens160
 id0=11
-vrrip0=192.168.11.1
+vrrip0=192.168.0.200
 
-int1=eth1
-id1=14
-vrrip1=192.168.14.1
+#int1=eth1
+#id1=14
+#vrrip1=192.168.14.1
 
 echo "MOUNT vrrpd "
 # BY DEFAULT VIRTUAL MAC IS DISABLED (virtual mac = -n) 
@@ -42,4 +42,4 @@ echo "MOUNT vrrpd "
 # Add or remove here your process the up script is only needed at first
 
 vrrpd -i $int0 -v $id0 -M $ps $vrrip0 -d 2 -U $up -D $down
-vrrpd -i $int1 -v $id1 -M $ps $vrrip1 -d 2 -D $down
+# vrrpd -i $int1 -v $id1 -M $ps $vrrip1 -d 2 -D $down

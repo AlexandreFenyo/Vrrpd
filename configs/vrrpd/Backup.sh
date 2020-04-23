@@ -9,7 +9,7 @@ month=$(date +%b)
 ##--------------------------------##
 
 echo "Down int"
-ifconfig eth1:0 down
+# ifconfig eth1:0 down
 
 # IF NEEDEED (no virtual MAC)
 # REFRESH MAC
