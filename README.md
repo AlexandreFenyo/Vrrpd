@@ -2,11 +2,11 @@
 
 ## Introduction
 
-Cette documentation est destinée à une personne qui connaît la nature du protocole VRRP. Vous pouvez monter en compétences sur ce protocole en lisant https://tools.ietf.org/html/rfc5798.
+Cette documentation n'est pas destinée à se substituer à la connaissance des grands principes de la mise en cluster via le protocole VRRP. Vous pouvez monter en compétences sur ce protocole en parcourant https://tools.ietf.org/html/rfc5798.
 
 ## Compilation et installation initiale
 
-Cette version a été spécifiquement adaptée et a été testée avec succès sur la distribution Linux Ubuntu 20.4 LTS server. Toutes les commandes sont à réaliser sous l'utilisateur root.
+Cette version a été spécifiquement adaptée et testée avec succès sur la distribution Linux Ubuntu 20.4 LTS server. Toutes les commandes sont à réaliser sous l'utilisateur root.
 
 On suppose que vous avez installé deux machines de manière identique sur un même LAN et que vous souhaitez les mettre en cluster avec un VIP.
 
@@ -28,13 +28,13 @@ Pour configurer une seule interface réseau, sur chaque machine, à participer �
 
 ## Configuration avancée
 
-Pour réaliser des opérations spécifiques lorsqu'une machine passe à l'état Actif, ajoutez les opérations souhaitées dans le fichier `/etc/vrrpd/Master.sh`. Cela peut par exemple permettre de créer une 
+Pour réaliser des opérations spécifiques lorsqu'une machine passe à l'état Actif, ajoutez les opérations souhaitées dans le fichier `/etc/vrrpd/Master.sh`. Cela peutaller de l'envoi d'une alerte à un serveur de traces jusqu'au flush d'une base de données ou d'un cache.
 
-Pour réaliser des opérations spécifiques lorsqu'une machine passe à l'état Passif, ajoutez les opérations souhaitées dans le fichier `/etc/vrrpd/Backup.sh`.
+De la même façon, pour réaliser des opérations spécifiques lorsqu'une machine passe à l'état Passif, ajoutez les opérations souhaitées dans le fichier `/etc/vrrpd/Backup.sh`.
 
+Pour réaliser des clusters VRRP sur plusieurs LAN, toujours avec deux machines, en supposant qu'elles sont multidomiciliées sur plusieurs LANs, suivez les exemples et explications indiquées dans les fichiers de configuration. Pour ce type de configuration avancée ou d'autres configurations plus complexes, la lecture assidue de la documentation de Frédéric Bourgeois s'impose.
 
-
-
+Enfin, sachez que VRRP, ainsi que son cousin HSRP créé par Cisco, ont initialement été inventés pour réaliser des clusters de routeurs. La mise en clusters de serveurs peut être réalisée via d'autres moyens, par exemple avec HeartBeat : https://www.it-connect.fr/clustering-et-haute-disponibilite-sous-linux-avec-heartbeat%EF%BB%BF/
 
 # Documentation initiale de Frédéric Bourgeois
 
