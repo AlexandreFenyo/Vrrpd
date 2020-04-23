@@ -1,5 +1,11 @@
 # Documentation d'installation
 
+## Introduction
+
+Cette documentation est destinée à une personne qui connaît la nature du protocole VRRP. Vous pouvez monter en compétences sur ce protocole en lisant [https://tools.ietf.org/html/rfc5798|RFC 5798].
+
+## Compilation et installation initiale
+
 Cette version a été spécifiquement adaptée et a été testée avec succès sur la distribution Linux Ubuntu 20.4 LTS server. Toutes les commandes sont à réaliser sous l'utilisateur root.
 
 On suppose que vous avez installé deux machines de manière identique sur un même LAN et que vous souhaitez les mettre en cluster avec un VIP.
@@ -10,10 +16,22 @@ Réalisez les opérations suivantes sur chacun de ces deux machines :
 - Clonez ce dépot : `git clone https://github.com/AlexandreFenyo/Vrrpd`
 - Compilez et installez le service, qui s'appelle vrrp : `./install` et choisissez *2* (compilation et installation)
 - Forcez l'arrêt du service : `systemctl stop vrrp`
+
+## Configuration basique
+
+Pour configurer une seule interface réseau, sur chaque machine, à participer à un cluster, il suffit de respecter les recommandations suivantes :
+
 - Mettez à jour le fichier de configuration `/etc/vrrpd/vrrp_on.sh` en remplaçant ens160 dans la ligne `int0=ens160` par le nom de l'interface sur laquelle vous souhaitez mettre en oeuvre le protocole VRRP
 - Modifiez `vrrip0=192.168.0.200` en remplaçant 192.168.0.200 par l'adresse IP de la VIP
 - Mettez à jour le fichier de configuration `/etc/vrrpd/Master.sh` en remplaçant dans la ligne `ifconfig ens160:0 192.168.0.200 netmask 255.255.255.0 up` ens160 par le nom d'interface sur laquelle vous souhaitez mettre en oeuvre le protocole VRRP et 192.168.0.200 par l'adresse IP de la VIP
-- Dans le fichier `/etc/vrrpd/Backup.sh`, remplacer ens160 par le nom de l'interface sur laquelle vous souhaitez mettre en oeuvre le protocole VRRP
+- Dans le fichier `/etc/vrrpd/Backup.sh`, remplacez ens160 par le nom de l'interface sur laquelle vous souhaitez mettre en oeuvre le protocole VRRP
+
+## Configuration avancée
+
+Pour réaliser des opérations spécifiques lorsqu'une machine passe à l'état Actif, ajoutez les opérations souhaitées dans le fichier `/etc/vrrpd/Master.sh`. Cela peut par exemple permettre de créer une 
+
+Pour réaliser des opérations spécifiques lorsqu'une machine passe à l'état Passif, ajoutez les opérations souhaitées dans le fichier `/etc/vrrpd/Backup.sh`.
+
 
 
 
